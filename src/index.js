@@ -4,7 +4,8 @@ const caminhoArquivo = process.argv;
 const link = caminhoArquivo[2];
 
 fs.readFile(link, 'utf-8', (erro, texto) =>{
-    verificaPalavrasDuplicadas(texto);
+    quebraEmParagrafos(texto);
+    //verificaPalavrasDuplicadas(texto);
 })
 
 // TODO criar lógica do contador de palavras.
@@ -17,8 +18,11 @@ fs.readFile(link, 'utf-8', (erro, texto) =>{
 //      "computador": 5
 // }
 function quebraEmParagrafos(texto){
-    const paragrafos = texto.split('\n');
-
+    const paragrafos = texto.toLowerCase().split('\n');
+    const contagem = paragrafos.map((paragrafo) => {
+        return verificaPalavrasDuplicadas(paragrafo);
+        })
+    console.log(contagem);
 }
 function verificaPalavrasDuplicadas(texto){
     const listaPalavras = texto.split(' ');
@@ -27,6 +31,6 @@ function verificaPalavrasDuplicadas(texto){
     listaPalavras.forEach(palavra => {
         resultado[palavra] = (resultado[palavra] || 0) + 1
     })
-    console.log(resultado);
+    return resultado;
 
 }
