@@ -24,12 +24,20 @@ function quebraEmParagrafos(texto){
         })
     console.log(contagem);
 }
+//replace é uma ferramenta de tratar strings que substitui por algo específico string.replace('item velho','novo item')
+//o que está no parênteses no primeiro campo é um amontoado de caracteres chamado de expressões regulares ou regeX ou regExp... o /g do final manda ele fazer isso de modo global.
+function limpaPalavras(palavra){
+    return palavra.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,'');
+}
 function verificaPalavrasDuplicadas(texto){
     const listaPalavras = texto.split(' ');
     const resultado = {};
     // resultado[listaPalavras] = valor
     listaPalavras.forEach(palavra => {
-        resultado[palavra] = (resultado[palavra] || 0) + 1
+        if(palavra.length >= 3){
+            const palavraLimpa = limpaPalavras(palavra);
+            resultado[palavraLimpa] = (resultado[palavraLimpa] || 0) + 1
+        }
     })
     return resultado;
 
