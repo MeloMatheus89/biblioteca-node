@@ -4,11 +4,28 @@ const caminhoArquivo = process.argv;
 const link = caminhoArquivo[2];
 
 fs.readFile(link, 'utf-8', (erro, texto) =>{
-    quebraEmParagrafos(texto);
-    //verificaPalavrasDuplicadas(texto);
-})
+    try{
+        if (erro) throw erro
+        contaPalavras(texto);    
+    } catch(erro){
+        if (erro.code === 'ENOENT') console.log('Arquivo não localizado');
+            else console.log('outro erro');
+    }    
+}
+)
 
-// TODO criar lógica do contador de palavras.
+function contaPalavras(texto){
+    const paragrafos = extraiParagrafos(texto);
+    const contagem = paragrafos.flatMap((paragrafo) => {
+    if(!paragrafo) return [];
+    return verificaPalavrasDuplicadas(paragrafo);
+    })
+    console.log(contagem);
+}
+
+function extraiParagrafos(texto){
+    return paragrafos = texto.toLowerCase().split('\n');
+}
 //pegar as palavras da string e fazer virar array
 //contador de ocorrências
 // montar um objeto com o resultado
@@ -17,13 +34,12 @@ fs.readFile(link, 'utf-8', (erro, texto) =>{
 //     "palavra": 4,
 //      "computador": 5
 // }
-function quebraEmParagrafos(texto){
-    const paragrafos = texto.toLowerCase().split('\n');
-    const contagem = paragrafos.map((paragrafo) => {
-        return verificaPalavrasDuplicadas(paragrafo);
-        })
-    console.log(contagem);
-}
+
+//flatMap é um método de array que "achata" os resultados do lado de dentro de um array.
+// exemplo: Array = [1,2,[3,4]] após o flatMap vira
+// Array = [1,2,3,4]. No nosso exemplo a baixo ele permite que os [] vazios sejam eliminados da contagem. Ele como se ele pulasse os valores falsy.
+
+
 //replace é uma ferramenta de tratar strings que substitui por algo específico string.replace('item velho','novo item')
 //o que está no parênteses no primeiro campo é um amontoado de caracteres chamado de expressões regulares ou regeX ou regExp... o /g do final manda ele fazer isso de modo global.
 function limpaPalavras(palavra){
