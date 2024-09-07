@@ -14,7 +14,7 @@ const link = caminhoArquivo[2];
 
 fs.readFile(link, 'utf-8', (erro, texto) => {
     try {
-      if (erro) throw erro
+      if (erro) throw erro;
       contaPalavras(texto);
     } catch(erro) {
       trataErros(erro);
