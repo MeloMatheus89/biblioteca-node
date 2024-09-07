@@ -18,14 +18,14 @@ fs.readFile(link, "utf-8", (erro, texto) => {
     if (erro) throw erro;
     const resultado = contaPalavras(texto);
     console.log("Debug:chegou aqui");
-    criaESalvaArquivo(resultado, endereco);
+    criaESalvaArquivo(resultado, enderecoDestino);
   } catch (erro) {
     trataErros(erro);
   }
 });
 
 async function criaESalvaArquivo(listaPalavras, enderecoDestino) {
-  const arquivoNovo = `${enderecoDestino}/resultado.txt`;
+  const arquivoNovo = `${enderecoDestino}\\resultado.txt`;
   const textoPalavras = JSON.stringify(listaPalavras);
   try {
     await fs.promises.writeFile(arquivoNovo, textoPalavras);
