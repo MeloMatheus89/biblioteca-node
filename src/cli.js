@@ -14,23 +14,39 @@ const link = caminhoArquivo[2];
 const enderecoDestino = caminhoArquivo[3];
 
 fs.readFile(link, "utf-8", (erro, texto) => {
+  console.log("Debug:chegou aqui");
   try {
     if (erro) throw erro;
     const resultado = contaPalavras(texto);
-    console.log("Debug:chegou aqui");
     criaESalvaArquivo(resultado, enderecoDestino);
   } catch (erro) {
     trataErros(erro);
   }
 });
 
-async function criaESalvaArquivo(listaPalavras, enderecoDestino) {
-  const arquivoNovo = `${enderecoDestino}\\resultado.txt`;
+// async function criaESalvaArquivo(listaPalavras, enderecoDestino) {
+//   const arquivoNovo = `${enderecoDestino}/resultado.txt`;
+//   const textoPalavras = JSON.stringify(listaPalavras);
+//   try {
+//     await fs.promises.writeFile(arquivoNovo, textoPalavras);
+//     console.log("arquivo criado");
+//   } catch (erro) {
+//     throw erro;
+//   }
+// }
+
+function criaESalvaArquivo(listaPalavras, enderecoDestino) {
+  const arquivoNovo = `${enderecoDestino}/resultado.txt`;
   const textoPalavras = JSON.stringify(listaPalavras);
-  try {
-    await fs.promises.writeFile(arquivoNovo, textoPalavras);
-    console.log("arquivo criado");
-  } catch (erro) {
-    throw erro;
-  }
+
+  fs.promises
+    .writeFile(arquivoNovo, textoPalavras)
+    .then(() => {
+      //processamento feito com o resultado da promessa
+      console.log("Arquivo criado");
+    })
+    .catch((erro) => {
+      throw erro;
+    })
+    .finally(() => console.log("Operação finalizada"));
 }
